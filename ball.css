@@ -1,0 +1,10 @@
+.round-ball {
+  width: 200px; /* Bạn có thể tăng giảm kích thước */
+  height: 200px; /* Đảm bảo width = height để tạo hình tròn hoàn hảo */
+  border-radius: 50%; /* Đây là dòng quan trọng nhất! */
+  object-fit: cover; /* Đảm bảo ảnh quả bóng không bị méo khi bo tròn */
+
+  /* (Tùy chọn) Thêm viền nếu bạn muốn */
+  border: 5px solid #ccc; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+}
