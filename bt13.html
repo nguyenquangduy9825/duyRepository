@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle</title>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #f8f4e8, #d9f0ff);
+            --card: rgba(255, 255, 255, 0.78);
+            --border: rgba(36, 66, 95, 0.14);
+            --text: #18314f;
+            --accent: #ff8a5b;
+            --accent-2: #35a7ff;
+            --success: #1fbf75;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .game {
+            width: min(92vw, 760px);
+            background: var(--card);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(24, 49, 79, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game::before,
+        .game::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(8px);
+        }
+
+        .game::before {
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 138, 91, 0.22);
+            top: -70px;
+            right: -40px;
+        }
+
+        .game::after {
+            width: 160px;
+            height: 160px;
+            background: rgba(53, 167, 255, 0.2);
+            bottom: -60px;
+            left: -40px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.1rem);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            margin: 10px 0 24px;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 560px;
+        }
+
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .hint {
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(24, 49, 79, 0.08);
+            font-weight: 600;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), #ffb15b);
+            color: white;
+            padding: 12px 18px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 12px 20px rgba(255, 138, 91, 0.28);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .tile {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border: none;
+            border-radius: 22px;
+            overflow: hidden;
+            padding: 0;
+            background-color: #f2f6fb;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 300% 300%;
+            box-shadow: 0 10px 18px rgba(24, 49, 79, 0.12);
+        }
+
+        .tile::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(0,0,0,0.08));
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .tile:hover::after {
+            opacity: 1;
+        }
+
+        .tile.is-correct {
+            outline: 3px solid rgba(31, 191, 117, 0.9);
+            transform: scale(1.02);
+        }
+
+        .message {
+            margin-top: 22px;
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: rgba(31, 191, 117, 0.12);
+            border: 1px solid rgba(31, 191, 117, 0.28);
+            color: #126a41;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message strong {
+            color: #0f5132;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0.96);
+                box-shadow: 0 0 0 rgba(31, 191, 117, 0);
+            }
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 28px rgba(31, 191, 117, 0.4);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 10px 18px rgba(24, 49, 79, 0.12);
+            }
+        }
+
+        .board.win .tile {
+            animation: celebrate 0.5s ease;
+        }
+
+        @media (max-width: 640px) {
+            .game {
+                padding: 20px;
+                border-radius: 22px;
+            }
+
+            .board {
+                gap: 9px;
+            }
+
+            .tile {
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <div class="content">
+            <h1>Puzzle</h1>
+            <p class="subtitle">
+                Click vao tung o de doi manh anh. Khi ca 9 o cung ghep dung thanh mot buc tranh hoan chinh, tro choi se hien thong bao chien thang.
+            </p>
+
+            <div class="status-bar">
+                <div class="hint" id="hint">Muc tieu: ghep dong bo toan bo anh.</div>
+                <button type="button" id="shuffleBtn">Tron lai</button>
+            </div>
+
+            <section class="board" id="board" aria-label="Bang ghep hinh"></section>
+            <div class="message" id="message" role="alert" aria-live="polite"></div>
+        </div>
+    </main>
+
+    <script>
+        const BOARD_SIZE = 3;
+        const IMAGES = ["img/1.png", "img/2.png"];
+        const board = document.getElementById("board");
+        const message = document.getElementById("message");
+        const hint = document.getElementById("hint");
+        const shuffleBtn = document.getElementById("shuffleBtn");
+        let states = [];
+
+        function getRandomState() {
+            return Array.from({ length: BOARD_SIZE * BOARD_SIZE }, () =>
+                Math.floor(Math.random() * IMAGES.length)
+            );
+        }
+
+        function getTilePosition(index) {
+            const row = Math.floor(index / BOARD_SIZE);
+            const col = index % BOARD_SIZE;
+            return {
+                x: `${col * 50}%`,
+                y: `${row * 50}%`
+            };
+        }
+
+        function renderBoard() {
+            board.innerHTML = "";
+
+            states.forEach((imageIndex, index) => {
+                const tile = document.createElement("button");
+                const position = getTilePosition(index);
+                tile.className = "tile";
+                tile.type = "button";
+                tile.setAttribute("aria-label", `O so ${index + 1}`);
+                tile.style.backgroundImage = `url("${IMAGES[imageIndex]}")`;
+                tile.style.backgroundPosition = `${position.x} ${position.y}`;
+                tile.addEventListener("click", () => toggleTile(index));
+                board.appendChild(tile);
+            });
+
+            checkWin();
+        }
+
+        function toggleTile(index) {
+            states[index] = (states[index] + 1) % IMAGES.length;
+            renderBoard();
+        }
+
+        function showMessage(text, won) {
+            message.innerHTML = text;
+            message.classList.add("show");
+            board.classList.toggle("win", won);
+        }
+
+        function checkWin() {
+            const won = states.every((value) => value === states[0]);
+            const tiles = board.querySelectorAll(".tile");
+
+            tiles.forEach((tile, index) => {
+                tile.classList.toggle("is-correct", won && states[index] === states[0]);
+            });
+
+            if (won) {
+                hint.textContent = "Hoan thanh: buc tranh da duoc ghep chinh xac.";
+                showMessage("Chuc mung. <strong>Ban da ghep hoan chinh buc tranh.</strong>", true);
+            } else {
+                hint.textContent = "Muc tieu: ghep dong bo toan bo anh.";
+                board.classList.remove("win");
+                message.classList.remove("show");
+            }
+        }
+
+        function shuffleBoard() {
+            do {
+                states = getRandomState();
+            } while (states.every((value) => value === states[0]));
+
+            renderBoard();
+        }
+
+        shuffleBtn.addEventListener("click", shuffleBoard);
+        shuffleBoard();
+    </script>
+</body>
+</html>

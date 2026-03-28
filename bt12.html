@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Máy tính Cơ bản</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <table class="calculator-table">
+        <tr>
+            <td colspan="4">
+                <input type="text" id="display" value="0" disabled>
+            </td>
+        </tr>
+
+        <tr>
+            <td><button onclick="addNumber('1')">1</button></td>
+            <td><button onclick="addNumber('2')">2</button></td>
+            <td><button onclick="addNumber('3')">3</button></td>
+            <td><button onclick="setOp('+')">+</button></td>
+        </tr>
+
+        <tr>
+            <td><button onclick="addNumber('4')">4</button></td>
+            <td><button onclick="addNumber('5')">5</button></td>
+            <td><button onclick="addNumber('6')">6</button></td>
+            <td><button onclick="setOp('-')">-</button></td>
+        </tr>
+
+        <tr>
+            <td><button onclick="addNumber('7')">7</button></td>
+            <td><button onclick="addNumber('8')">8</button></td>
+            <td><button onclick="addNumber('9')">9</button></td>
+            <td><button onclick="setOp('*')">x</button></td>
+        </tr>
+
+        <tr>
+            <td><button onclick="clearScreen()">C</button></td>
+            <td><button onclick="addNumber('0')">0</button></td>
+            <td><button onclick="calculate()">=</button></td>
+            <td><button onclick="setOp('/')">/</button></td>
+        </tr>
+    </table>
+
+    
+
+    <script >
+        let screenValue = "0";
+let firstValue = "";
+let operator = "";
+
+const display = document.getElementById('display');
+
+function update() {
+    display.value = screenValue;
+}
+
+function addNumber(num) {
+    if (screenValue === "0") {
+        screenValue = num;
+    } else {
+        screenValue += num;
+    }
+    update();
+}
+
+function clearScreen() {
+    screenValue = "0";
+    firstValue = "";
+    operator = "";
+    update();
+}
+
+function setOp(op) {
+    operator = op;
+    firstValue = screenValue;
+    screenValue = "0";
+}
+
+function calculate() {
+    let a = parseFloat(firstValue);
+    let b = parseFloat(screenValue);
+    let result = 0;
+
+    if (operator === '+') result = a + b;
+    else if (operator === '-') result = a - b;
+    else if (operator === '*') result = a * b;
+    else if (operator === '/') result = a / b;
+
+    screenValue = result.toString();
+    operator = "";
+    update();
+}
+
+    </script>
+</body>
+</html>

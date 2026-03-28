@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+            .no{
+                position: absolute;
+
+        }}
+    </style>
+    <h1>do you love me ?</h1>
+    <button onclick="yes()">yes</button>
+    <button onclick="no()" id ="nobtn" class="no">no</button>
+    <script>
+        function yes() {
+            alert(">3:");
+        }
+        function no(){
+            let duy=document.getElementById("nobtn")
+            let rong=window.innerWidth;
+            let dai=window.innerHeight;
+             let randomX = Math.random() * (rong );
+        let randomY = Math.random() * (dai );
+
+        nobtn.style.left = randomX + "px";
+        nobtn.style.top = randomY + "px";
+        }
+    </script>
+</body>
+</html>

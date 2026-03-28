@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>tính số ngày trong tháng
+    </h1>
+    
+        <input type="text" id="thang" placeholder="nhập tháng vào đây">
+<input type="button" onclick="thang()" value="bấm vào đây " >
+
+  
+    
+       <script>
+       function thang(){
+    let month = Number(document.getElementById("thang").value)
+   switch(month){
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            alert("Tháng có 31 ngày")
+            break;
+
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            alert("Tháng có 30 ngày")
+            break;
+
+        case 2:
+            alert("Tháng 2 có 28 hoặc 29 ngày")
+            break;
+
+        default:
+            alert("Tháng không hợp lệ")
+    }
+
+    
+}
+</script>
+    
+</body>
+</html>
