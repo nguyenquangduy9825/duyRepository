@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>ĐĂNG NHẬP HỆ THỐNG</h1>
+    <form >
+    <input type="text"  id="dangnhap" placeholder="nhập tên đăng nhập vào đây">
+    <input type="text"  id="matkhau" placeholder="mời nhập mật khẩu vào đây ">
+    <button type="button" onclick="vao()">Đăng nhập </button>
+    
+</form>
+<script>
+   function vao() {
+    
+    let dn = document.getElementById("dangnhap").value;
+    let bn = document.getElementById("matkhau").value;
+    if (dn.startsWith("nguyen")) {
+        alert("Bạn đã đúng tên đăng nhập");
+        if (bn.endsWith("123")) {
+            alert("Mật khẩu của bạn đã đúng");
+        } else {
+            alert("Mật khẩu của bạn đã sai");
+        }
+        
+    } else {
+        alert("Bạn đã sai tên đăng nhập");
+    }
+}
+</script>
+</body>
+</html>
