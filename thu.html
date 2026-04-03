@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <style>
+        /* Biến màu sắc cho sợi dây */
+        :root {
+            --cord: #444;
+            --bulb-on: #f1c40f;
+            --bulb-off: #bdc3c7;
+        }
+
+        /* --- Đoạn code CSS bạn lấy từ ảnh --- */
+        .toggle-scene {
+            overflow: visible !important;
+            width: 100%;
+            position: absolute;
+            top: 50px;
+            text-align: center;
+        }
+
+        .toggle-scene__arm {
+            display: none; /* Đang bị ẩn theo code mẫu */
+        }
+
+        .toggle-scene__cord {
+            stroke: var(--cord);
+            stroke-width: 2;
+            cursor: move;
+        }
+
+        /* Ẩn các đoạn dây theo yêu cầu của code mẫu */
+        .toggle-scene__cord:nth-of-type(1) { display: none; }
+        .toggle-scene__cord:nth-of-type(2),
+        .toggle-scene__cord:nth-of-type(3),
+        .toggle-scene__cord:nth-of-type(4),
+        .toggle-scene__cord:nth-of-type(5) {
+            display: none;
+        }
+        /* ------------------------------------ */
+
+        /* CSS bổ sung để hiển thị bóng đèn */
+        svg {
+            height: 300px;
+        }
+        .bulb-body {
+            fill: var(--bulb-off);
+            stroke: #333;
+            stroke-width: 2;
+            transition: fill 0.3s;
+        }
+        .is-on .bulb-body {
+            fill: var(--bulb-on);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toggle-scene" id="scene">
+        <svg viewBox="0 0 200 400">
+            <g class="toggle-scene__arm">
+                <rect x="90" y="0" width="20" height="50" fill="#7f8c8d" />
+            </g>
+
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+            <line class="toggle-scene__cord" x1="100" y1="150" x2="100" y2="250" />
+
+            <circle class="bulb-body" cx="100" cy="100" r="40" />
+            <rect x="85" y="135" width="30" height="15" fill="#95a5a6" />
+            
+            <circle cx="100" cy="255" r="5" fill="#333" style="cursor: pointer;" onclick="toggleLight()" />
+        </svg>
+    </div>
+
+    <script>
+        // Hàm JS nhỏ để bạn test bật/tắt
+        function toggleLight() {
+            const scene = document.getElementById('scene');
+            scene.classList.toggle('is-on');
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>

@@ -66,7 +66,7 @@ let s20=s19.charAt(4);
 // Tìm vị trí dấu gạch chéo (/) cuối cùng
 let lastSlash = path.lastIndexOf("/",9);// endindex là đến tới 9 cuối cùng index nó là bao nhiêu
 
-console.log(lastSlash); // 
+console.log(lastSlash);  
 //include có tìm thấy chuỗi con hay ko
 //startsWith() kiểm tra phần đầu Phương thức này dùng để kiểm tra xem một chuỗi có bắt đầu bằng các ký tự bạn chỉ định hay không. Nó trả về true hoặc false.
 let url = "https://duy-store.com";
@@ -91,5 +91,19 @@ let words = fullName.split(" ");
 console.log(words); // Kết quả: ["Nguyễn", "Quang", "Duy"]
 console.log("Họ của bạn là: " + words[0]); // Nguyễn
 console.log("Tên của bạn là: " + words[2]); // Duy
+// bài tập
+let str = "025468";
 
+let result = "";
+
+for (let i = 0; i < str.length; i++) {
+    result += str[i];
+
+    // nếu số hiện tại và số sau đều chẵn thì chèn "-"
+    if (str[i] % 2 === 0 && str[i+1] % 2 === 0) {
+        result += "-";
+    }
+}
+
+console.log(result); // 0-254-6-8
 
